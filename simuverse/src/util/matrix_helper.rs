@@ -44,13 +44,7 @@ pub fn fullscreen_factor(viewport: glam::Vec2, fovy: f32) -> (f32, f32, f32) {
 pub fn ortho_mvp(viewport_size: glam::Vec2) -> [[f32; 4]; 4] {
     let fovy: f32 = 75.0 / 180.0 * core::f32::consts::PI;
     let factor = fullscreen_factor(viewport_size, fovy);
-    let p_matrix = glam::Mat4::orthographic_rh(
-        -1.0 * factor.1,
-        1.0 * factor.1,
-        -1.0 * factor.2,
-        1.0 * factor.2,
-        -100.0,
-        100.0,
-    );
+    let p_matrix =
+        glam::Mat4::orthographic_rh(-factor.1, factor.1, -factor.2, factor.2, -100.0, 100.0);
     (p_matrix * glam::Mat4::IDENTITY).to_cols_array_2d()
 }

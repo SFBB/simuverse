@@ -258,8 +258,8 @@ fn get_particles_data(
         depth_or_array_layers: 1,
     };
     let workgroup_count = (
-        (particles_size.width + 15) / 16,
-        (particles_size.height + 15) / 16,
+        particles_size.width.div_ceil(16),
+        particles_size.height.div_ceil(16),
         1,
     );
 

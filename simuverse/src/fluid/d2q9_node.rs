@@ -42,7 +42,7 @@ impl D2Q9Node {
             depth_or_array_layers: 1,
         };
 
-        let workgroup_count = ((lattice.width + 63) / 64, (lattice.height + 3) / 4, 1);
+        let workgroup_count = (lattice.width.div_ceil(64), lattice.height.div_ceil(4), 1);
         // reynolds number: (length)(velocity)/(viscosity)
         // Kármán vortex street： 47 < Re < 10^5
         // let viscocity = (lattice.width as f32 * 0.05) / 320.0;

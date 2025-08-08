@@ -14,18 +14,18 @@ app-surface = "1.6"
 # app-surface = { path = "../../idroid/wgpu-in-app/app-surface" }
 bytemuck = { version = "1.22", features = ["derive", "min_const_generics"] }
 
-# egui = { version = "0.31", default-features = false }
-# egui_extras = { version = "0.31", package = "egui_extras" }
-# egui-wgpu = { version = "0.31", package = "egui-wgpu" }
-# egui-winit = { version = "0.31", package = "egui-winit", default-features = false }
-egui = { git = "https://github.com/emilk/egui", rev = "773232b", default-features = false }
-egui_extras = { git = "https://github.com/emilk/egui", rev = "773232b", package = "egui_extras" }
-egui-wgpu = { git = "https://github.com/emilk/egui", package = "egui-wgpu", rev = "773232b", default-features = false }
-egui-winit = { git = "https://github.com/emilk/egui", package = "egui-winit", rev = "773232b", default-features = false }
+egui = { version = "0.32", default-features = false }
+egui_extras = { version = "0.32", package = "egui_extras" }
+egui-wgpu = { version = "0.32", package = "egui-wgpu" }
+egui-winit = { version = "0.32", package = "egui-winit", default-features = false }
+# egui = { git = "https://github.com/emilk/egui", rev = "773232b", default-features = false }
+# egui_extras = { git = "https://github.com/emilk/egui", rev = "773232b", package = "egui_extras" }
+# egui-wgpu = { git = "https://github.com/emilk/egui", package = "egui-wgpu", rev = "773232b", default-features = false }
+# egui-winit = { git = "https://github.com/emilk/egui", package = "egui-winit", rev = "773232b", default-features = false }
 
 webbrowser = { version = "1.0.1" }
 # 与 egui 中使用的版本对齐
-winit = { version = "0.30.7" }
+winit = { version = "0.30.11", default-features = false }
 raw-window-handle = "0.6"
 wgpu = { version = "25" }
 glam = "0.29"
@@ -52,7 +52,10 @@ truck-modeling = { version = "0.6" }
 truck-polymesh = { version = "0.6" }
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
-instant = { version = "0.1.13", default-features = false , features = ["now", "wasm-bindgen"] }
+instant = { version = "0.1.13", default-features = false, features = [
+    "now",
+    "wasm-bindgen",
+] }
 console_error_panic_hook = "0.1.7"
 console_log = "1.0"
 fern = "0.7"
