@@ -1,6 +1,7 @@
 use crate::node::{BindGroupData, BufferlessFullscreenNode, ComputeNode};
 use crate::util::BufferObj;
 use crate::{FieldUniform, SettingObj, Simulator};
+use alloc::vec;
 use app_surface::AppSurface;
 use wgpu::CommandEncoderDescriptor;
 
@@ -31,10 +32,10 @@ impl FieldSimulator {
             canvas_size.y / pixel_distance,
         );
 
-        let field_workgroup_count = ((field_size.x + 15) / 16, (field_size.y + 15) / 16, 1);
+        let field_workgroup_count = (field_size.x.div_ceil(16), field_size.y.div_ceil(16), 1);
         let (_, sx, sy) = crate::util::matrix_helper::fullscreen_factor(
             (canvas_size.x as f32, canvas_size.y as f32).into(),
-            75.0 / 180.0 * std::f32::consts::PI,
+            75.0 / 180.0 * core::f32::consts::PI,
         );
 
         let field_uniform_data = FieldUniform {

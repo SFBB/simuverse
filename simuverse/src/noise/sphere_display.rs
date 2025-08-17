@@ -4,6 +4,7 @@ use crate::{
     node::{BindGroupData, ViewNode, ViewNodeBuilder},
     util::BufferObj,
 };
+use alloc::vec;
 use app_surface::AppSurface;
 use wgpu::ShaderStages;
 
@@ -82,7 +83,7 @@ impl SphereDisplay {
         //     &mut encoder,
         //     wgpu::LoadOp::Clear(wgpu::Color::BLACK),
         // );
-        // app.queue.submit(std::iter::once(encoder.finish()));
+        // app.queue.submit(Some(encoder.finish()));
     }
 
     pub fn draw_by_pass<'a, 'b: 'a>(

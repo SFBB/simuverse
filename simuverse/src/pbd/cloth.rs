@@ -1,9 +1,10 @@
 use crate::node::{BindGroupData, ComputeNode, ViewNode, ViewNodeBuilder};
 use crate::util::AnyTexture;
-use crate::util::{vertex::PosParticleIndex, BufferObj};
+use crate::util::{BufferObj, vertex::PosParticleIndex};
 
 use super::{ClothFabric, ClothUniform, MeshColoringObj};
 
+use alloc::{vec, vec::Vec};
 use app_surface::AppSurface;
 
 pub struct Cloth {

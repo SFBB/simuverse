@@ -41,10 +41,12 @@
     unused_import_braces,
     unused_qualifications
 )]
-
+use alloc::{
+    sync::Arc,
+    {vec, vec::Vec},
+};
 use app_surface::AppSurface;
 use bytemuck::{Pod, Zeroable};
-use std::sync::Arc;
 use truck_base::cgmath64::*;
 use wgpu::util::{BufferInitDescriptor, DeviceExt};
 use wgpu::*;
@@ -125,7 +127,7 @@ pub struct BufferHandler {
 pub struct PreBindGroupLayoutEntry {
     pub visibility: ShaderStages,
     pub ty: BindingType,
-    pub count: Option<std::num::NonZeroU32>,
+    pub count: Option<::core::num::NonZeroU32>,
 }
 
 /// A collection of GPU buffers used by `wgpu` for rendering
@@ -267,9 +269,9 @@ pub struct Scene {
 
 #[derive(Debug, Clone)]
 pub struct DeviceHandler {
-    pub device: Arc<Device>,
+    pub device: Device,
     #[allow(dead_code)]
-    pub queue: Arc<Queue>,
+    pub queue: Queue,
 }
 
 /// Rendered objects in the scene.

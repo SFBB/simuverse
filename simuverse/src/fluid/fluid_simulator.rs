@@ -1,10 +1,11 @@
-use super::{d2q9_node::D2Q9Node, OBSTACLE_RADIUS};
+use super::{OBSTACLE_RADIUS, d2q9_node::D2Q9Node};
 use crate::{
+    FieldAnimationType, SettingObj, Simulator,
     fluid::LbmUniform,
     node::{BindGroupData, BufferlessFullscreenNode, ComputeNode},
     util::BufferObj,
-    FieldAnimationType, SettingObj, Simulator,
 };
+use alloc::vec;
 use wgpu::TextureFormat;
 
 use crate::create_shader_module;

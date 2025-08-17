@@ -1,7 +1,8 @@
 #![allow(dead_code)]
 
+use alloc::vec::Vec;
+use core::hash::Hash;
 use rustc_hash::FxHashMap as HashMap;
-use std::hash::Hash;
 
 /// Hashmap for optimizing iteration.
 #[derive(Clone, Debug)]

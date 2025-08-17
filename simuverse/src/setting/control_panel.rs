@@ -2,6 +2,7 @@ use crate::{
     CADSetting, FieldAnimationType, NoiseSetting, PBDSetting, ParticleColorType, SettingObj,
     SimuType,
 };
+use alloc::{borrow::ToOwned, string::String, vec};
 use app_surface::AppSurface;
 use egui::{CollapsingHeader, Color32, Context, Ui};
 
@@ -53,7 +54,7 @@ impl ControlPanel {
         bg = egui::Color32::from_rgba_premultiplied(bg.r(), bg.g(), bg.b(), 230);
         let panel_frame = egui::Frame {
             fill: bg,
-            rounding: 10.0.into(),
+            corner_radius: 10.0.into(),
             stroke: egui_ctx.style().visuals.widgets.noninteractive.fg_stroke,
             outer_margin: 0.5.into(), // so the stroke is within the bounds
             inner_margin: 12.0.into(),
@@ -138,7 +139,7 @@ impl ControlPanel {
 
         self.top_bar_ui(ctx);
 
-        let window = egui::Window::new("Settings")
+        let window = egui::Window::new(" Settings")
             .id(egui::Id::new("particles_window_options")) // required since we change the title
             .resizable(false)
             .collapsible(true)
@@ -180,21 +181,25 @@ impl ControlPanel {
         });
     }
 
+    /// 顶部菜单栏
+    ///
+    /// # NOTE:
+    /// 下边的  字符不是乱码，它是 iconfont 中的一个图标，编辑器中无法正确显示
     fn top_bar_ui(&mut self, ctx: &Context) {
         let mut menu_items = vec![
-            ("🌾 Vector Field", SimuType::Field),
-            ("💦 LBM Fluid", SimuType::Fluid),
-            ("💥 Perlin Noise", SimuType::Noise),
-            ("👗 Position-based Dynamics", SimuType::PBDynamic),
+            ("Vector Field", SimuType::Field),
+            ("LBM Fluid", SimuType::Fluid),
+            ("Perlin Noise", SimuType::Noise),
+            ("Position-based Dynamics", SimuType::PBDynamic),
         ];
         if cfg!(not(target_arch = "wasm32")) {
-            menu_items.push(("🚚 CAD Kenel", SimuType::CAD));
+            menu_items.push((" CAD Kenel", SimuType::CAD));
         }
         egui::TopBottomPanel::top("simuverse_top_bar").show(ctx, |ui| {
             ui.horizontal_wrapped(|ui| {
                 ui.visuals_mut().button_frame = false;
                 if ui
-                    .hyperlink_to("🌌 Wgpu Simuverse", "https://github.com/jinleili/simuverse")
+                    .hyperlink_to(" Wgpu Simuverse", "https://github.com/jinleili/simuverse")
                     .clicked()
                 {
                     webbrowser::open("https://github.com/jinleili/simuverse").unwrap();
@@ -270,12 +275,12 @@ impl ControlPanel {
 
         let theme = egui_extras::syntax_highlighting::CodeTheme::from_memory(ui.ctx(), ui.style());
 
-        let mut layouter = |ui: &egui::Ui, string: &str, wrap_width: f32| {
+        let mut layouter = |ui: &egui::Ui, text_buffer: &dyn egui::TextBuffer, wrap_width: f32| {
             let mut layout_job = egui_extras::syntax_highlighting::highlight(
                 ui.ctx(),
                 ui.style(),
                 &theme,
-                &crate::remove_leading_indentation(string),
+                &crate::remove_leading_indentation(text_buffer.as_str()),
                 "rs",
             );
             layout_job.wrap.max_width = wrap_width;
@@ -361,27 +366,12 @@ pub fn setup_custom_fonts(ctx: &egui::Context) {
             })
             .into(),
     );
-    // Some good looking emojis.
     fonts.font_data.insert(
-        "NotoEmoji-Regular".to_owned(),
-        egui::FontData::from_static(include_bytes!(
-            "../../../assets/fonts/NotoEmoji-Regular.ttf"
-        ))
-        .tweak(egui::FontTweak {
-            scale: 0.91,            // make it smaller
-            y_offset_factor: -0.15, // move it up
-            y_offset: 0.0,
-            ..Default::default()
-        })
-        .into(),
-    );
-    // Bigger emojis, and more. <http://jslegers.github.io/emoji-icon-font/>:
-    fonts.font_data.insert(
-        "emoji-icon-font".to_owned(),
-        egui::FontData::from_static(include_bytes!("../../../assets/fonts/emoji-icon-font.ttf"))
+        "iconfont".to_owned(),
+        egui::FontData::from_static(include_bytes!("../../../assets/fonts/iconfont.ttf"))
             .tweak(egui::FontTweak {
-                scale: 0.88,           // make it smaller
-                y_offset_factor: 0.07, // move it down slightly
+                scale: 0.91,         // make it smaller
+                y_offset_factor: 0., // move it up
                 y_offset: 0.0,
                 ..Default::default()
             })
@@ -389,11 +379,7 @@ pub fn setup_custom_fonts(ctx: &egui::Context) {
     );
     fonts.families.insert(
         egui::FontFamily::Proportional,
-        vec![
-            ZH_TINY.to_owned(),
-            "NotoEmoji-Regular".to_owned(),
-            "emoji-icon-font".to_owned(),
-        ],
+        vec![ZH_TINY.to_owned(), "iconfont".to_owned()],
     );
 
     // 如果没有这项设置，`syntax_highlighting::code_view_ui` 无法渲染任何字符

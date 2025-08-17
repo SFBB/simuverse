@@ -1,12 +1,12 @@
-use std::borrow::BorrowMut;
+use alloc::{vec, vec::Vec};
+use core::borrow::BorrowMut;
 
-use super::{init_lattice_material, is_sd_sphere, LatticeInfo, LatticeType, OBSTACLE_RADIUS};
+use super::{LatticeInfo, LatticeType, OBSTACLE_RADIUS, init_lattice_material, is_sd_sphere};
 use crate::{
-    create_shader_module,
+    FieldAnimationType, FieldUniform, SettingObj, create_shader_module,
     fluid::LbmUniform,
     node::{BindGroupData, BindGroupSetting, ComputeNode},
     util::{AnyTexture, BufferObj},
-    FieldAnimationType, FieldUniform, SettingObj,
 };
 use wgpu::TextureFormat;
 
@@ -42,7 +42,7 @@ impl D2Q9Node {
             depth_or_array_layers: 1,
         };
 
-        let workgroup_count = ((lattice.width + 63) / 64, (lattice.height + 3) / 4, 1);
+        let workgroup_count = (lattice.width.div_ceil(64), lattice.height.div_ceil(4), 1);
         // reynolds number: (length)(velocity)/(viscosity)
         // Kármán vortex street： 47 < Re < 10^5
         // let viscocity = (lattice.width as f32 * 0.05) / 320.0;
@@ -60,7 +60,7 @@ impl D2Q9Node {
 
         let (_, sx, sy) = crate::util::matrix_helper::fullscreen_factor(
             (canvas_size.x as f32, canvas_size.y as f32).into(),
-            75.0 / 180.0 * std::f32::consts::PI,
+            75.0 / 180.0 * core::f32::consts::PI,
         );
         let field_uniform_data = FieldUniform {
             lattice_size: [lattice.width as i32, lattice.height as i32],

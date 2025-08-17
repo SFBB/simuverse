@@ -1,6 +1,6 @@
 use crate::CADSetting;
 
-use super::{platform::*, rendimpl::*, CADApp, RenderMode};
+use super::{CADApp, RenderMode, platform::*, rendimpl::*};
 use app_surface::AppSurface;
 use std::io::Read;
 use truck_meshalgo::prelude::*;
@@ -190,7 +190,7 @@ impl CADApp for ObjApp {
         );
         Camera::perspective_camera(
             matrix.invert().unwrap(),
-            Rad(std::f64::consts::PI / 4.0),
+            Rad(core::f64::consts::PI / 4.0),
             0.1,
             40.0,
         )

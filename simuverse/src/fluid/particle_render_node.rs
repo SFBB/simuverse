@@ -1,7 +1,8 @@
 use crate::util::BufferObj;
+use alloc::{vec, vec::Vec};
 use wgpu::util::DeviceExt;
 
-use crate::{create_shader_module, TrajectoryUniform};
+use crate::{TrajectoryUniform, create_shader_module};
 
 pub struct ParticleRenderNode {
     trajectory_views: Vec<wgpu::TextureView>,
